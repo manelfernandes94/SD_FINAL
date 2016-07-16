@@ -184,7 +184,7 @@ public  class Transport{
          }
          
          public void schedule() {
-        	 int delay = 1000;
+        	 int delay = new Random().nextInt(4000) + 1000;
         	 try {
         		 timer.schedule(new UpdateTransport(), delay);
         	 } catch (IllegalStateException e) {
