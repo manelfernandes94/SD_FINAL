@@ -28,7 +28,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test
 	public void testRequestJob() throws Exception {
-		CLIENT.requestJob(CENTRO_1, SUL_1, PRICE_SMALLEST_LIMIT);
+		CLIENT.requestJob(LOCATION1, LOCATION2, PRICE_SMALLEST_LIMIT);
 	}
 
 	// -------------- invalid inputs test cases ---------------
@@ -41,7 +41,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test(expected = BadLocationFault_Exception.class)
 	public void testRequestJobInvalidOrigin() throws Exception {
-		CLIENT.requestJob(EMPTY_STRING, CENTRO_1, PRICE_SMALLEST_LIMIT);
+		CLIENT.requestJob(EMPTY_STRING, LOCATION1, PRICE_SMALLEST_LIMIT);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test(expected = BadLocationFault_Exception.class)
 	public void testRequestJobNullOrigin() throws Exception {
-		CLIENT.requestJob(null, SUL_1, PRICE_SMALLEST_LIMIT);
+		CLIENT.requestJob(null, LOCATION2, PRICE_SMALLEST_LIMIT);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test(expected = BadLocationFault_Exception.class)
 	public void testRequestJobInvalidDestination() throws Exception {
-		CLIENT.requestJob(CENTRO_1, EMPTY_STRING, PRICE_SMALLEST_LIMIT);
+		CLIENT.requestJob(LOCATION1, EMPTY_STRING, PRICE_SMALLEST_LIMIT);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test(expected = BadLocationFault_Exception.class)
 	public void testRequestJobNullDestination() throws Exception {
-		CLIENT.requestJob(SUL_1, null, PRICE_SMALLEST_LIMIT);
+		CLIENT.requestJob(LOCATION2, null, PRICE_SMALLEST_LIMIT);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test(expected = BadPriceFault_Exception.class)
 	public void testRequestJobInvalidPrice() throws Exception {
-		CLIENT.requestJob(CENTRO_1, SUL_1, INVALID_PRICE);
+		CLIENT.requestJob(LOCATION1, LOCATION2, INVALID_PRICE);
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class RequestJobIT extends AbstractIT {
 	 */
 	@Test
 	public void testUpperPriceLimit() throws Exception {
-		JobView jv1 = CLIENT.requestJob(SUL_1, CENTRO_1, PRICE_UPPER_LIMIT + 1);
+		JobView jv1 = CLIENT.requestJob(LOCATION1, LOCATION2, PRICE_UPPER_LIMIT + 1);
 		assertNull(jv1);
 	}
 
@@ -168,110 +168,32 @@ public class RequestJobIT extends AbstractIT {
 
 	/**
 	 * Test that a job requested with a price below 10 returns a positive price
-	 * lower or equal to 10.
+	 * equal to 10.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testPriceBelowSmallestLimit() throws Exception {
 		final int referencePrice = PRICE_SMALLEST_LIMIT - UNITARY_PRICE;
-		JobView jv1 = CLIENT.requestJob(CENTRO_1, SUL_1, referencePrice);
+		JobView jv1 = CLIENT.requestJob(LOCATION1, LOCATION2, referencePrice);
 		final int price = jv1.getJobPrice();
-		assertTrue(price >= ZERO_PRICE && price < referencePrice);
+		assertTrue(price == 10);
 	}
 
-	/**
-	 * Test a job request with a price of 10. The proposed price should be
-	 * greater or equal to 0 and lower than 10.
-	 * 
-	 * @result JobView with a price value under the constraint mentioned above.
-	 * @throws Exception
-	 */
+	
+
+	// -------------- reference price >= 10 and <=1000  ---------------
+
+	
+
 	@Test
-	public void testLowerEqualPriceLimit() throws Exception {
-		final int referencePrice = PRICE_SMALLEST_LIMIT;
-		JobView jv1 = CLIENT.requestJob(SUL_1, CENTRO_1, referencePrice);
+	public void testPriceAbove10andbelow100() throws Exception {
+		final int referencePrice = 20;
+		JobView jv1 = CLIENT.requestJob(LOCATION1, LOCATION2, referencePrice);
 		final int price = jv1.getJobPrice();
-		assertTrue(price >= ZERO_PRICE && price < referencePrice);
+		assertTrue(price == 20);
 	}
 
-	// -------------- reference price > 10 ---------------
-
-	/**
-	 * Odd transporter, odd price
-	 * 
-	 * Test that an odd-numbered transporter (e.g. UpaTransporter1) with an odd
-	 * price request returns a proposal between [1, price + 1[.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testOddPriceAboveSmallestLimit() throws Exception {
-		int oddReferencePrice = PRICE_SMALLEST_LIMIT + 1;
-		assertTrue(oddReferencePrice % 2 == 1);
-
-		JobView jv1 = CLIENT.requestJob(CENTRO_1, SUL_1, oddReferencePrice);
-		final int price = jv1.getJobPrice();
-		assertTrue(price >= ZERO_PRICE && price < oddReferencePrice);
-	}
-
-	/**
-	 * Odd transporter, even price
-	 *
-	 * Test that an odd-numbered transporter (e.g. UpaTransporter1) with an even
-	 * price request of 12 returns a proposal between ]price,
-	 * Integer.MAX_VALUE[.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testEvenPriceAboveSmallestLimit() throws Exception {
-		int evenReferencePrice = PRICE_SMALLEST_LIMIT + 2;
-		assertTrue(evenReferencePrice % 2 == 0);
-		assertTrue(evenReferencePrice < Integer.MAX_VALUE - 1);
-
-		JobView jv1 = CLIENT.requestJob(CENTRO_1, SUL_1, evenReferencePrice);
-		final int price = jv1.getJobPrice();
-		assertTrue(price > evenReferencePrice && price < Integer.MAX_VALUE);
-	}
-
-	// -------------- reference price border cases ---------------
-
-	/**
-	 * Test that a job request with a price of 1 returns a proposal with a price
-	 * of 0.
-	 * 
-	 * @return JobView reference with price set to 0.
-	 * @throws Exception
-	 */
-	// @Test
-	// not tested for evaluation as stated in project Q&A:
-	// http://disciplinas.tecnico.ulisboa.pt/leic-sod/2015-2016/labs/proj/faq.html
-	public void testZeroPrice() throws Exception {
-		JobView jv1 = CLIENT.requestJob(SUL_1, CENTRO_1, ZERO_PRICE);
-		final int price = jv1.getJobPrice();
-		assertEquals(ZERO_PRICE, price);
-	}
-
-	/**
-	 * Test that a job request with a price of 1 returns a proposal with a price
-	 * of 0.
-	 * 
-	 * @return JobView reference with price set to 0.
-	 * @throws Exception
-	 */
-	// @Test
-	// not tested for evaluation as stated in project Q&A:
-	// http://disciplinas.tecnico.ulisboa.pt/leic-sod/2015-2016/labs/proj/faq.html
-	public void testUnitaryPrice() throws Exception {
-		JobView jv1 = CLIENT.requestJob(SUL_1, CENTRO_1, UNITARY_PRICE);
-		final int price = jv1.getJobPrice();
-		assertEquals(ZERO_PRICE, price);
-	}
-
-	@Test(expected = SOAPFaultException.class)
-	public void requestTheDevil() throws BadLocationFault_Exception, BadPriceFault_Exception {
-		JobView jobView = CLIENT.requestJob("Lisboa", "Beja", 66);
-	}
 
 }
+
