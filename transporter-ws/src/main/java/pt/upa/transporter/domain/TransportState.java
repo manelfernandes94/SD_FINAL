@@ -1,8 +1,7 @@
 package pt.upa.transporter.domain;
+//estados possiveis das viagens
+public enum TransportState {
 
-public enum JobState {
-
-	PROPOSED,
     REJECTED,
     ACCEPTED,
     HEADING,
@@ -13,7 +12,7 @@ public enum JobState {
         return name();
     }
 
-    public static JobState fromValue(String v) {
+    public static TransportState fromValue(String v) {
         return valueOf(v);
     }
 	
