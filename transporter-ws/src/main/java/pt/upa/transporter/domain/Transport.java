@@ -79,7 +79,9 @@ public  class Transport{
 	
 	// Getters e Settters de Transporte
 
-	
+	public void setTimer(){
+		new UpdateTransport().schedule();
+	}
 
     public String getTransportIdentifier() {
 		return transportIdentifier;
@@ -129,32 +131,9 @@ public  class Transport{
 		this.state = state;
 	}
 	
-	public void setState(JobStateView jobState) {
-		switch(jobState){
-		case REJECTED: 	this.setState(TransportState.REJECTED);		break;
-		case ACCEPTED: 	this.setState(TransportState.ACCEPTED);		break;
-		case HEADING: 	this.setState(TransportState.HEADING);		break;
-		case ONGOING: 	this.setState(TransportState.ONGOING);		break;
-		case COMPLETED: this.setState(TransportState.COMPLETED);	break;
-		default:
-			break;
-		}
-	}
-	
 	
 
 	
-	
-	// upade do transporte
-	public void update(JobView transport) {
-		this.setOrigin(transport.getJobOrigin());
-		this.setDestination(transport.getJobDestination());
-		this.setState(transport.getJobState());
-		this.setTransportIdentifier(transport.getJobIdentifier());
-		this.setPrice(transport.getJobPrice());
-		this.setTransporterCompany(transport.getCompanyName());
-		//this.setTransporterEndpoint(transporterClient);
-	}
 	
 	//Transicoes de estados de viagem tendo em conta o passar do tempo
 	
@@ -184,7 +163,7 @@ public  class Transport{
          }
          
          public void schedule() {
-        	 int delay = new Random().nextInt(4000) + 1000;
+        	 int delay =  1000;
         	 try {
         		 timer.schedule(new UpdateTransport(), delay);
         	 } catch (IllegalStateException e) {

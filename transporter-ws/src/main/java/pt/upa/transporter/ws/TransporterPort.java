@@ -101,7 +101,7 @@ public class TransporterPort implements TransporterPortType {
 			System.out.println(newid);
 			Transport transport = new Transport(origin, destination, price, newid);
 			transport.setPrice(10);
-			transport.setState(TransportState.ACCEPTED);
+			//transport.setState(TransportState.ACCEPTED);
 			transports.put(newid, transport);
 			return createView(transport);
 			
@@ -112,7 +112,7 @@ public class TransporterPort implements TransporterPortType {
 			System.out.println(newid);
 			Transport transport = new Transport(origin, destination, price, newid);
 			transport.setPrice(price);
-			transport.setState(TransportState.ACCEPTED);
+			//transport.setState(TransportState.ACCEPTED);
 			transports.put(newid, transport);
 			return createView(transport);
 		}
