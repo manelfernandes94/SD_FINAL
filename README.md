@@ -1,16 +1,16 @@
 # Projeto de Sistemas Distribuídos 2015-2016 #
 
-Grupo de SD 25 - Campus Taguspark
+SD Alameda
 
-Luis Santos 77900 007lads@gmail.com
 
-Pedro Fernandes 77961 pedro.f.fernandes@tecnico.ulisboa.pt
 
-Constantin Zavgorodnii 78030 constantin.zavgorodnii@tecnico.ulisboa.pt
+Manuel Fernandes 76002 majo_fernandes@hotmail.com
+
+
 
 
 Repositório:
-[tecnico-distsys/T_25-project](https://github.com/tecnico-distsys/T_25-project)
+https://github.com/manelfernandes94/SD_FINAL
 
 -------------------------------------------------------------------------------
 
@@ -36,17 +36,17 @@ startup.sh
 [2] Criar pasta temporária
 
 ```
-mkdir T_25-project
-cd T_25-project
+mkdir project
+cd project
 ```
 
 
 [3] Obter código fonte do projeto (versão entregue)
 
 ```
-git clone -b SD_R2 https://github.com/tecnico-distsys/T_25-project/
+git clone https://github.com/manelfernandes94/SD_FINAL.git
 
-cd T_25-project
+cd project
 ```
 
 [4] Instalar módulos de bibliotecas auxiliares
@@ -104,29 +104,6 @@ mvn clean install
 ...
 
 
--------------------------------------------------------------------------------
-
-### Serviço BROKER
-
-[1] Construir e executar **servidor**
-
-```
-cd broker-ws
-mvn clean install
-
-mvn exec:java -Dws.num=0
-mvn exec:java -Dws.num=1
-```
-
-
-[2] Construir **cliente** e executar testes
-
-```
-cd broker-ws-cli
-mvn clean install
-```
-
-...
 
 -------------------------------------------------------------------------------
 **FIM**
