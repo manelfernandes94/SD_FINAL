@@ -148,14 +148,17 @@ public  class Transport{
 				case ACCEPTED:
 					setState(TransportState.HEADING);
 					schedule();
+					
 					break;
 				case HEADING:
 					setState(TransportState.ONGOING);
 					schedule();
+					
 					break;
 				case ONGOING:
 					setState(TransportState.COMPLETED);
 					schedule();
+					
 					break;
 				default:
 					timer.cancel();
