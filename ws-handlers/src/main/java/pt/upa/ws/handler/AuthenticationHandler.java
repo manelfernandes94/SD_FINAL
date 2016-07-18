@@ -23,9 +23,6 @@ import java.time.ZoneId;
 import java.util.*;
 
 
-/**
- * Created by lads on 09-05-2016.
- */
 public class AuthenticationHandler implements SOAPHandler<SOAPMessageContext> {
     private static final String PROPERTIES_FILE = "auth.properties";
     private static Properties PROPS;

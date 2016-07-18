@@ -74,6 +74,7 @@ public  class Transport{
 		this.price = price;
 		this.transporterCompany = null;
 		this.state = TransportState.ACCEPTED;
+		this.setTimer();
 		//this.transporterEndpoint = null;
 	}
 	
@@ -127,8 +128,8 @@ public  class Transport{
 		return state;
 	}
 
-	public void setState(TransportState state) {
-		this.state = state;
+	public void setState(TransportState value) {
+		this.state = value;
 	}
 	
 	

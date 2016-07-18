@@ -14,7 +14,7 @@ public class TransporterClientApplication {
 		}
 
 		
-		TransporterClient port = new TransporterClient(args[0], "UpaTransporter");
+		TransporterClient port = new TransporterClient(args[0], "UpaTransporterClient");
 		System.out.println(port.ping("testing..."));
 		String jobid = port.requestJob("Alaska", "New York", 20).getJobIdentifier();
 		System.out.println(jobid);
